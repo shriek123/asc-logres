@@ -6,18 +6,18 @@ In this assignment, you will be implementing and training one of the earliest al
 
 # Task
 
-1. Implement the functions in `assignments/assignment.py`
+1. Do `exercise/excercise_0*.py` by following the instruction in the comment out. They are not grading items. So feel free to change as you wish.
 
-2. Implement `assignments/experiment.py` by following the instruction in the comment out and generate a plot. Save the plot as png and put it under `figs` folder with name `decision_region.png`. Make sure to add the X and Y labels!!!
+1. Implement the functions in `assignments/assignment.py`. This is the grading item.
 
-3. Git commit & Push Your edit and the generated figure
+3. Git commit & Push Your edit.
 
 
 ### Instruction
 
 1. You can import `assignments/utils.py` and use their functions (if any)
 
-1. You can verify your implementation by using `notebooks/develop.py`. If you prefer to work with Jupyter notebook, you can convert the Python script by jupytext. `jupytext --to notebook <name_of_script_file>.py`
+1. You can verify your implementation by using the exercise_0*.py scripts. If you prefer to work with Jupyter notebook, you can convert the Python script by jupytext. `jupytext --to notebook <name_of_script_file>.py`
 
 2. [You can review your autograding results](https://docs.github.com/en/education/manage-coursework-with-github-classroom/learn-with-github-classroom/view-autograding-results)
 
