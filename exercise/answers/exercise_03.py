@@ -6,31 +6,25 @@
 %autoreload 2
 import sys
 import numpy as np
-sys.path.append("../assignments")
+sys.path.append("../../assignments")
 from utils import *
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 
-# Load the penguin dataset
-penguins = sns.load_dataset("penguins")
 
-# Drop the rows with missing values
-penguins = penguins.dropna()
+# Load the mnist dataset
+from sklearn.datasets import fetch_openml
+mnist = fetch_openml('mnist_784', version=1, cache=True)
+X = mnist["data"]
+y = mnist["target"]
 
-penguins.describe()
-# %%
+# Downsampling
+# This is done to reduce the number of samples in the dataset
+X = X[:1000]
+y = y[:1000]
 
-# We will use the all numerical features
-focal_cols = [
-    "bill_length_mm",
-    "bill_depth_mm",
-    "flipper_length_mm",
-    "body_mass_g",
-]
-X = penguins[focal_cols].values
-y = penguins["species"].values
 
 # %% Split the data into training and testing sets
 # Notice that we are using 95% of the data for testing and 5% for training
@@ -38,7 +32,7 @@ y = penguins["species"].values
 X_train, X_test, y_train, y_test = train_test_split(
     X,  # Feature matrix
     y,  # Target variable
-    test_size=0.95,  # Proportion of the dataset to include in the test split
+    test_size=0.9,  # Proportion of the dataset to include in the test split
     random_state=42,  # The seed used by the random number generator
     #stratify=y  # This stratify parameter makes a split so that the proportion of values in the sample produced will be the same as the proportion of values provided to parameter stratify
 )
@@ -55,7 +49,7 @@ X_test_std = sc.transform(X_test) # Standardize the testing data
 # - random_state=42
 lr = LogisticRegression(
     penalty = None, # The penalty term is used to prevent overfitting. The "none" means no penalty term
-    solver = "saga",
+    #solver = "sag",
     multi_class="ovr",  # The "ovr" stands for One-vs-Rest, which means that in the case of multi-class classification, a separate model is trained for each class predicted against all other classes
     random_state=42  # The seed used by the random number generator for shuffling the data
 )
@@ -79,8 +73,8 @@ print("Accuracy: %f" % np.mean(y_pred == y_test))
 # - random_state=42
 lr_std = LogisticRegression(
     penalty="l2", # The penalty term is used to prevent overfitting. The "l2" means L2 regularization
-    C = 2.0, # The inverse of regularization strength. Smaller values cause stronger regularization
-    solver = "saga",
+    C = 1.0, # The inverse of regularization strength. Smaller values cause strongr regularization
+    #solver = "sag",
     multi_class="ovr",
     random_state=42
 )
@@ -89,3 +83,4 @@ lr_std.fit(X_train_std,y_train)
 # %% TODO: Evaluate the accuracy of the prediction for the test data
 y_pred = lr_std.predict(X_test_std)
 print("Accuracy: %f" % np.mean(y_pred == y_test))
+# %%

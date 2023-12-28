@@ -106,7 +106,7 @@ class TestLogisticRegressionRidge(unittest.TestCase):
         self.assertTrue(norm_small_gamma > norm_large_gamma)
 
 
-class OneVsRest(unittest.TestCase):
+class TestOneVsRest(unittest.TestCase):
     """
     Unit test for the OneVsRest class.
     """

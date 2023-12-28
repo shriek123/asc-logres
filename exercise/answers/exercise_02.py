@@ -7,7 +7,7 @@
 %autoreload 2
 import sys
 import numpy as np
-sys.path.append("../assignments")
+sys.path.append("../../assignments")
 from utils import *
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler

@@ -55,7 +55,42 @@ class LogisticRegression:
         pass
 
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """Return class label after unit step"""
+        """Predict class labels for samples in X.
+
+        Parameters
+        ----------
+        X : {array-like}, shape = [n_examples, n_features]
+          Samples.
+
+        Returns
+        -------
+        C : array, shape = [n_examples]
+            Predicted class label (1 or 0) per sample.
+
+        # TODO: Implement this function to predict class labels for samples in X.
+        # Use the weights and bias unit from the fitting process.
+        # You may find the predict_proba method useful.
+        """
+        pass
+
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """
+        Predict class probabilities for samples in X.
+
+        Parameters
+        ----------
+        X : {array-like}, shape = [n_examples, n_features]
+            Samples.
+
+        Returns
+        -------
+        P : array, shape = [n_examples, 2]
+            The class probabilities of the input samples. The order of the classes corresponds to that in the attribute `classes_`.
+
+        # TODO: Implement this function to predict class probabilities for samples in X.
+        # Use the weights and bias unit from the fitting process.
+        # You will implement the sigmoid function
+        """
         pass
 
     def copy(self):
@@ -162,6 +197,12 @@ class OneVsRest:
             n_features is the number of features.
         y : array-like, shape = [n_examples]
             Target values.
+
+        # Hint
+        Step 1: Iterate over each class in a one-vs-rest manner.
+        Step 2: For each class, create a binary target vector where the current class is 1 and all others are 0.
+        Step 3: Use the classifier's .fit method to train the classifier on the training data and the binary target vector.
+        Step 4: Store the trained classifier for later use in prediction.
         """
         pass
 
@@ -178,5 +219,11 @@ class OneVsRest:
         -------
         C : array, shape = [n_examples]
             Predicted class label per sample.
+
+        # Hint
+        Step 1: Iterate over each classifier.
+        Step 2: Use the classifier's .predict_proba method to get the class probabilities.
+        Step 3: Store the class probabilities in a matrix.
+        Step 4: Return the class with the highest probability for each sample.
         """
         pass

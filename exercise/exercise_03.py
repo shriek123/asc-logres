@@ -12,25 +12,15 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 import seaborn as sns
+from sklearn.datasets import fetch_openml
+mnist = fetch_openml('mnist_784', version=1, cache=True)
+X = mnist["data"]
+y = mnist["target"]
 
-# Load the penguin dataset
-penguins = sns.load_dataset("penguins")
-
-# Drop the rows with missing values
-penguins = penguins.dropna()
-
-penguins.describe()
-# %%
-
-# We will use the all numerical features
-focal_cols = [
-    "bill_length_mm",
-    "bill_depth_mm",
-    "flipper_length_mm",
-    "body_mass_g",
-]
-X = penguins[focal_cols].values
-y = penguins["species"].values
+# Downsampling
+# This is done to reduce the number of samples in the dataset
+X = X[:1000]
+y = y[:1000]
 
 # %% Split the data into training and testing sets
 # Notice that we are using 95% of the data for testing and 5% for training
@@ -51,7 +41,6 @@ X_test_std = sc.transform(X_test) # Standardize the testing data
 # %% Apply the logistic regression model using scikit-learn without regularization
 lr = LogisticRegression(
     penalty = None, # The penalty term is used to prevent overfitting. The "none" means no penalty term
-    solver = "saga",
     multi_class="ovr",  # The "ovr" stands for One-vs-Rest, which means that in the case of multi-class classification, a separate model is trained for each class predicted against all other classes
     random_state=42  # The seed used by the random number generator for shuffling the data
 )
@@ -69,8 +58,7 @@ print("Accuracy: %f" % np.mean(y_pred == y_test))
 # %%
 # TODO: Fit the logistic regression model with L2 regularization using scikit-learn. Use the following parameters:
 # - penalty="l2" # The penalty term is used to prevent overfitting. The "l2" means L2 regularization
-# - C = 2.0 # The inverse of regularization strength. Smaller values cause stronger regularization
-# - solver = "saga"
+# - C = 1.0 # The inverse of regularization strength. Smaller values cause stronger regularization
 # - multi_class="ovr"
 # - random_state=42
 lr_reg = ...
