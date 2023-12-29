@@ -1,4 +1,4 @@
-# asc-perceptron
+# asc-logres
 Implementing Logistic Regression for Classification
 
 In this assignment, you will be implementing and training a logistic regression model for classification. You will be using Python to build the logistic regression model from scratch and then train it to classify different penguin species. This task will provide you with a deeper understanding of machine learning algorithms for classification and their efficient implementation in Python.
