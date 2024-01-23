@@ -15,6 +15,8 @@ from sklearn.model_selection import train_test_split
 import seaborn as sns
 from utils import plot_decision_regions
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+
 
 # Load the penguin dataset
 penguins = sns.load_dataset("penguins")
@@ -70,18 +72,27 @@ plot_decision_regions(
     test_idx=test_idx  # The indices of the test set examples
 )
 plt.xlabel('Bill Length (mm)')
-plt.ylabel('Bill Depth (mm)')
+plt.ylabel('Body mass')
 plt.title('Logistic Regression Decision Regions')
 
 
 # %% TODO: Use the StandardScaler class from the scikit-learn library to standardize features
-...
+scaler= StandardScaler()
+X_scaled_train=scaler.fit_transform(X_train)
+X_scaled_test=scaler.transform(X_test)
 
 # %% TODO: Apply the logistic regression model using scikit-learn. Use the same parameters as the TODO cell above.
-lr_std = ...
+lr_std = LogisticRegression(
+    penalty = None, # The penalty term is used to prevent overfitting. The "none" means no penalty term
+    solver = "saga",
+    multi_class="ovr",  # The "ovr" stands for One-vs-Rest, which means that in the case of multi-class classification, a separate model is trained for each class predicted against all other classes
+    random_state=42  # The seed used by the random number generator for shuffling the data
+)
+lr_std.fit(X_scaled_train,y_train)
 
 # %% TODO: Evaluate the accuracy of the prediction for the test data
-acc =
+y_pred = lr_std.predict(X_scaled_test)
+acc = np.mean(y_pred == y_test)
 print("Accuracy: %f" % acc)
 
 # %% Plot the decision regions of the trained Logistic Regression classifier
@@ -96,3 +107,4 @@ plot_decision_regions(
 plt.xlabel('Rescaled Bill Length (mm)')
 plt.ylabel('Rescaled Bill Depth (mm)')
 plt.title('Logistic Regression Decision Regions')
+# %%
