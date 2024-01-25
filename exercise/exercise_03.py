@@ -61,8 +61,18 @@ print("Accuracy: %f" % np.mean(y_pred == y_test))
 # - C = 1.0 # The inverse of regularization strength. Smaller values cause stronger regularization
 # - multi_class="ovr"
 # - random_state=42
-lr_reg = ...
+lr_reg = LogisticRegression(
+    penalty = "l2", # The penalty term is used to prevent overfitting. The "none" means no penalty term
+    C = 1.0,
+    multi_class="ovr",  # The "ovr" stands for One-vs-Rest, which means that in the case of multi-class classification, a separate model is trained for each class predicted against all other classes
+    random_state=42  # The seed used by the random number generator for shuffling the data
+)
+lr_reg.fit(
+    X_train_std,  # The training data
+    y_train  # The target variable to try to predict in the case of supervised learning
+)
 
 # %% Evaluate the accuracy of the prediction for the test data
 y_pred = lr_reg.predict(X_test_std)
 print("Accuracy: %f" % np.mean(y_pred == y_test))
+# %%
