@@ -238,7 +238,10 @@ class OneVsRest:
         Step 3: Use the classifier's .fit method to train the classifier on the training data and the binary target vector.
         Step 4: Store the trained classifier for later use in prediction.
         """
-        pass
+        for i in range(self.n_classes):
+          targetvector=np.where(y==i, 1,0)
+          self.classifiers[i].fit(X, targetvector)
+        return self
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
@@ -260,6 +263,10 @@ class OneVsRest:
         Step 3: Store the class probabilities in a matrix.
         Step 4: Return the class with the highest probability for each sample.
         """
-        pass
+        classprob=()
+        for classifier in self.classifiers:
+            classprob= classprob.append(classifier.predict_proba(X))
+        return np.argmax(classprob, axis=1)
+
 
 # %%
