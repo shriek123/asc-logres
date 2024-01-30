@@ -1,7 +1,7 @@
 # %%
 import numpy as np
 import pandas as pd
-from typing import Any, Self
+from typing_extensions import Any, Self
 
 
 # TODO: Implement the LogisticRegression class
@@ -52,7 +52,25 @@ class LogisticRegression:
         -------
         self : object
         """
-        pass
+        rgen = np.random.RandomState(self.random_state)
+        self.w_ = rgen.normal(loc=0.0, scale=0.01, size=X.shape[1])
+        self.b_ = np.float_(0.0)
+
+        self.errors_ = []
+
+        for _ in range(self.n_iter):
+            errors = 0
+            for xi, target in zip(X, y):
+                update = self.eta * (target - self.predict(xi))
+                self.w_ += update * xi
+                self.b_ += update
+                errors += int(update != 0.0)
+            self.errors_.append(errors)
+        return self
+    
+    def net_input(self, X):
+        """Calculate net input"""
+        return np.dot(X, self.w_)+ self.b_
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict class labels for samples in X.
@@ -71,7 +89,8 @@ class LogisticRegression:
         # Use the weights and bias unit from the fitting process.
         # You may find the predict_proba method useful.
         """
-        pass
+        return np.where(self.net_input(X) >= 0.0, 1, 0)
+
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         """
@@ -91,7 +110,8 @@ class LogisticRegression:
         # Use the weights and bias unit from the fitting process.
         # You will implement the sigmoid function
         """
-        pass
+        prob = 1/(1+ np.exp(net_input))
+        return np.array([prob, 1-prob])
 
     def copy(self):
         model = LogisticRegression(
@@ -160,8 +180,22 @@ class LogisticRegressionRidge(LogisticRegression):
         -------
         self : object
         """
-        pass
+        rgen = np.random.RandomState(self.random_state)
+        self.w_ = rgen.normal(loc=0.0, scale=0.01, size=X.shape[1])
+        self.b_ = np.float_(0.0)
 
+        self.errors_ = []
+        for _ in range(self.n_iter):
+            errors = 0
+            for xi, target in zip(X, y):
+                update = self.eta * (target - self.predict(xi))
+                # the l2 part
+                self.w_ += update * xi - self.eta * self.gamma * self.w_
+                self.b_ += update
+                errors += int(update != 0.0)
+            self.errors_.append(errors)
+        return self
+        
 
 class OneVsRest:
     """
@@ -227,3 +261,5 @@ class OneVsRest:
         Step 4: Return the class with the highest probability for each sample.
         """
         pass
+
+# %%
